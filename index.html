@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Drum Kit</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+  <div class="keys">
+    <div data-key="65" class="key">
+      <kbd>A</kbd>
+      <span class="sound">Middle C</span>
+    </div>
+    <div data-key="83" class="key">
+      <kbd>S</kbd>
+      <span class="sound">Note D</span>
+    </div>
+    <div data-key="68" class="key">
+      <kbd>D</kbd>
+      <span class="sound">Note E</span>
+    </div>
+    <div data-key="70" class="key">
+      <kbd>F</kbd>
+      <span class="sound">Note F</span>
+    </div>
+    <div data-key="71" class="key">
+      <kbd>G</kbd>
+      <span class="sound">Note G</span>
+    </div>
+    <div data-key="72" class="key">
+      <kbd>H</kbd>
+      <span class="sound">Note A</span>
+    </div>
+    <div data-key="74" class="key">
+      <kbd>J</kbd>
+      <span class="sound">Note B</span>
+    </div>
+    <div data-key="75" class="key">
+      <kbd>K</kbd>
+      <span class="sound">Note Top C</span>
+    </div>
+    
+  </div>
+
+  <audio data-key="65" src="flute/1-middle-c.mp3"></audio>
+  <audio data-key="83" src="flute/2-d-above-middle-c.mp3"></audio>
+  <audio data-key="68" src="flute/3-e-above-middle-c.mp3"></audio>
+  <audio data-key="70" src="flute/4-f-above-middle-c.mp3"></audio>
+  <audio data-key="71" src="flute/5-g-above-middle-c.mp3"></audio>
+  <audio data-key="72" src="flute/6-a-above-middle-c.mp3"></audio>
+  <audio data-key="74" src="flute/7-b-above-middle-c.mp3"></audio>
+  <audio data-key="75" src="flute/8-top-c.mp3"></audio>
+  <!-- <audio data-key="76" src="sounds/tink.wav"></audio> -->
+
+<script>
+
+function playSound(e) {
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+    if(!audio) return; //stops the function from running all together
+    audio.currentTime = 0;
+    audio.play();
+    key.classList.add('playing');
+        }
+    
+    function removeTransition(e) {
+        if(e.propertyName !== 'transform') return; //skip it if it's not a transform
+        this.classList.remove('playing');
+    }
+    
+    const keys = document.querySelectorAll('.key');
+    keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+    
+    window.addEventListener('keydown', playSound);
+</script>
+
+
+</body>
+</html>
